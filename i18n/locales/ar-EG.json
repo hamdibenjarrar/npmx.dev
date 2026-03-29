@@ -38,9 +38,9 @@
       "comments": "التعليقات",
       "loading_comments": "جاري تحميل التعليقات…",
       "updating": "جاري التحديث…",
-      "reply_count": "{count} ردّ | {count} ردّان | {count} ردود",
-      "like_count": "{count} إعجاب | {count} إعجابان | {count} إعجابات",
-      "repost_count": "{count} إعادة نشر | {count} إعادتا نشر | {count} إعادات نشر",
+      "reply_count": "{count} ردود | ردّ واحد | ردّان | {count} ردود | {count} ردًّا | {count} ردود",
+      "like_count": "{count} إعجاب | إعجاب واحد | إعجابان | {count} إعجابات | {count} إعجابًا | {count} إعجاب",
+      "repost_count": "{count} إعادة نشر | إعادة نشر واحدة | إعادتا نشر | {count} إعادات نشر | {count} إعادة نشر | {count} إعادة نشر",
       "more_replies": "المزيد من الردود"
     }
   },
@@ -135,7 +135,7 @@
       "default_not_available": "التوثيق الافتراضي غير متاح",
       "page_title": "توثيق API — npmx",
       "page_title_name": "توثيق {name} — npmx",
-      "page_title_version": "توثيق {name}@{version} — npmx",
+      "page_title_version": "توثيق {name} — npmx",
       "og_title": "توثيق {name}",
       "view_package": "عرض الحزمة"
     },
@@ -144,7 +144,7 @@
       "select_maximum": "وصلت للحد الأقصى من التحديدات"
     },
     "versions": {
-      "view_all_versions": "عرض {count} إصدار | عرض جميع الـ {count} إصدارات",
+      "view_all_versions": "عرض جميع الإصدارات | عرض الإصدار | عرض الإصدارين | عرض {count} إصدارات | عرض {count} إصدارًا | عرض {count} إصدار",
       "distribution_range_date_same_year": "{from} — {to}",
       "distribution_range_date_multiple_years": "{from} — {to}",
       "grouping_versions_title": "تجميع الإصدارات",
@@ -166,7 +166,7 @@
       "no_match_filter": "لا توجد إصدارات مطابقة"
     },
     "dependencies": {
-      "vulnerabilities_count": "{count} ثغرة أمنية | {count} ثغرتان أمنيتان | {count} ثغرات أمنية"
+      "vulnerabilities_count": "{count} ثغرات | ثغرة أمنية واحدة | ثغرتان أمنيتان | {count} ثغرات أمنية | {count} ثغرة أمنية | {count} ثغرات أمنية"
     },
     "maintainers": {
       "maintainer_template": "المشرف {name}"
@@ -280,8 +280,8 @@
       "deselected_all_category_facets": "تم إلغاء تحديد جميع أوجه الفئة"
     },
     "file_changes": "تغييرات الملفات",
-    "files_count": "{count} ملف | {count} ملفان | {count} ملفات",
-    "lines_hidden": "{count} سطر مخفي | {count} سطران مخفيان | {count} أسطر مخفية",
+    "files_count": "{count} ملفات | ملف واحد | ملفان | {count} ملفات | {count} ملفًا | {count} ملف",
+    "lines_hidden": "{count} أسطر مخفية | سطر مخفي واحد | سطران مخفيان | {count} أسطر مخفية | {count} سطرًا مخفيًا | {count} سطر مخفي",
     "file_too_large": "الملف كبير جدًا للعرض",
     "file_size_warning": "تحذير: حجم هذا الملف كبير",
     "compare_versions": "مقارنة الإصدارات",
@@ -296,7 +296,7 @@
     },
     "version_selector_title": "اختيار الإصدار",
     "summary": "الملخص",
-    "deps_count": "{count} تبعية | {count} تبعيتان | {count} تبعيات",
+    "deps_count": "{count} تبعيات | تبعية واحدة | تبعيتان | {count} تبعيات | {count} تبعية | {count} تبعيات",
     "dependencies": "التبعيات",
     "dev_dependencies": "تبعيات التطوير",
     "peer_dependencies": "التبعيات المشتركة",
@@ -386,7 +386,7 @@
   },
   "action_bar": {
     "title": "شريط الإجراءات",
-    "selection": "غير محدد | محدد واحد | {count} محدد",
+    "selection": "غير محدد | محدد واحد | محددان | {count} محددات | {count} محددًا | {count} محدد",
     "shortcut": "الاختصار",
     "button_close_aria_label": "إغلاق شريط الإجراءات"
   },
