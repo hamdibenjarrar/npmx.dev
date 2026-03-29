@@ -307,7 +307,7 @@
         "assets": "{count} ressource | {count} ressources"
       },
       "view_source": "Voir la source",
-      "skills_cli": "Compétences CLI"
+      "skills_cli": "Skills CLI"
     },
     "links": {
       "main": "principal",
