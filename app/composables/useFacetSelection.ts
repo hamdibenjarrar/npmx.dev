@@ -89,6 +89,11 @@ export function useFacetSelection(queryParam = 'facets') {
         description: t(`compare.facets.items.deprecated.description`),
         chartable: false,
       },
+      healthScore: {
+        label: t(`compare.facets.items.healthScore.label`),
+        description: t(`compare.facets.items.healthScore.description`),
+        chartable: true,
+      },
     }),
   )
 

@@ -32,6 +32,10 @@ const facetLabels: Record<ComparisonFacet, { label: string; description: string 
   },
   deprecated: { label: 'Deprecated?', description: 'Whether the package is deprecated' },
   totalLikes: { label: 'Likes', description: 'Number of likes' },
+  healthScore: {
+    label: 'Health Score',
+    description: 'Overall package health based on maintenance, quality, security and popularity',
+  },
 }
 
 const categoryLabels: Record<string, string> = {

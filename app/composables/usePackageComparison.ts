@@ -49,6 +49,8 @@ export interface PackageComparisonData {
   }
   /** Whether this is a binary-only package (CLI without library entry points) */
   isBinaryOnly?: boolean
+  /** Computed health score (0-100) */
+  healthScore?: number
   /** Marks this as the "no dependency" column for special display */
   isNoDependency?: boolean
 }
@@ -191,11 +193,12 @@ export function usePackageComparison(packageNames: MaybeRefOrGetter<string[]>) {
         }),
       )
 
-      // Add results to cache
+      // Add results to cache (with computed health score)
       const newCache = new Map(cache.value)
       for (const [i, name] of namesToFetch.entries()) {
         const data = results[i]
         if (data) {
+          data.healthScore = computeHealthScore(data)
           newCache.set(name, data)
         }
       }
@@ -336,6 +339,60 @@ function resolveNoDependencyDisplay(
     default:
       return null
   }
+}
+
+/**
+ * Compute a health score (0-100) from already-fetched package data.
+ * Dimensions: Maintenance (35%), Quality (30%), Security (20%), Popularity (15%)
+ */
+export function computeHealthScore(data: PackageComparisonData): number {
+  // Deprecated packages get score 0 regardless
+  if (data.metadata?.deprecated) return 0
+
+  // MAINTENANCE (35%) — based on lastUpdated
+  let maintenance = 0
+  if (data.metadata?.lastUpdated) {
+    const daysSince = Math.floor(
+      (Date.now() - new Date(data.metadata.lastUpdated).getTime()) / 86400000,
+    )
+    if (daysSince < 30) maintenance = 100
+    else if (daysSince < 90) maintenance = 80
+    else if (daysSince < 180) maintenance = 60
+    else if (daysSince < 365) maintenance = 40
+    else maintenance = 10
+  }
+
+  // QUALITY (30%) — based on analysis data
+  let quality = 0
+  if (data.analysis) {
+    if (data.analysis.types?.kind === 'included' || data.analysis.types?.kind === '@types')
+      quality += 40
+    if (data.analysis.moduleFormat === 'esm' || data.analysis.moduleFormat === 'dual')
+      quality += 30
+    if (data.metadata?.license) quality += 20
+    if (data.package.description) quality += 10
+  }
+
+  // SECURITY (20%) — based on vulnerability severity
+  let security = 100
+  if (data.vulnerabilities) {
+    if (data.vulnerabilities.severity.critical > 0) security = 0
+    else if (data.vulnerabilities.severity.high > 0) security = 25
+    else if (data.vulnerabilities.severity.moderate > 0) security = 50
+    else if (data.vulnerabilities.count > 0) security = 75
+  }
+
+  // POPULARITY (15%) — based on weekly downloads
+  let popularity = 0
+  const dl = data.downloads ?? 0
+  if (dl > 1_000_000) popularity = 100
+  else if (dl > 100_000) popularity = 80
+  else if (dl > 10_000) popularity = 60
+  else if (dl > 1_000) popularity = 40
+  else if (dl > 100) popularity = 20
+  else popularity = 5
+
+  return Math.round(maintenance * 0.35 + quality * 0.3 + security * 0.2 + popularity * 0.15)
 }
 
 function computeFacetValue(
@@ -536,6 +593,16 @@ function computeFacetValue(
         raw: totalDepCount,
         display: formatNumber(totalDepCount),
         status: totalDepCount > 50 ? 'warning' : 'neutral',
+      }
+    }
+    case 'healthScore': {
+      const score = data.healthScore
+      if (score === undefined) return null
+      return {
+        raw: score,
+        display: `${score}/100`,
+        status: score >= 80 ? 'good' : score >= 60 ? 'warning' : 'bad',
+        tooltip: t('compare.facets.items.healthScore.tooltip'),
       }
     }
     default: {

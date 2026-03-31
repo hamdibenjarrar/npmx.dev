@@ -1196,6 +1196,11 @@
         "vulnerabilities": {
           "label": "Vulnérabilités",
           "description": "Vulnérabilités de sécurité connues"
+        },
+        "healthScore": {
+          "label": "Score de santé",
+          "description": "Santé globale du paquet basée sur la maintenance, la qualité, la sécurité et la popularité",
+          "tooltip": "Score 0–100. Les paquets dépréciés obtiennent 0."
         }
       },
       "values": {

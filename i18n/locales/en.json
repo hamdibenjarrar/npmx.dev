@@ -1200,6 +1200,11 @@
         "vulnerabilities": {
           "label": "Vulnerabilities",
           "description": "Known security vulnerabilities"
+        },
+        "healthScore": {
+          "label": "Health Score",
+          "description": "Overall package health based on maintenance, quality, security and popularity",
+          "tooltip": "Score 0–100. Deprecated packages score 0."
         }
       },
       "values": {

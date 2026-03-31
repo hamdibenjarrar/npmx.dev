@@ -277,7 +277,14 @@
       "select_all_category_facets": "تحديد جميع أوجه الفئة",
       "deselect_all_category_facets": "إلغاء تحديد جميع أوجه الفئة",
       "selected_all_category_facets": "تم تحديد جميع أوجه الفئة",
-      "deselected_all_category_facets": "تم إلغاء تحديد جميع أوجه الفئة"
+      "deselected_all_category_facets": "تم إلغاء تحديد جميع أوجه الفئة",
+      "items": {
+        "healthScore": {
+          "label": "درجة الصحة",
+          "description": "الصحة الإجمالية للحزمة بناءً على الصيانة والجودة والأمان والشعبية",
+          "tooltip": "درجة من 0 إلى 100. الحزم المهملة تحصل على 0."
+        }
+      }
     },
     "file_changes": "تغييرات الملفات",
     "files_count": "{count} ملفات | ملف واحد | ملفان | {count} ملفات | {count} ملفًا | {count} ملف",

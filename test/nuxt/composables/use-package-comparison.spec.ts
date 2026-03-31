@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { mountSuspended } from '@nuxt/test-utils/runtime'
 import type { PackageComparisonData } from '~/composables/usePackageComparison'
+import { computeHealthScore } from '~/composables/usePackageComparison'
 
 /**
  * Helper to test usePackageComparison by wrapping it in a component.
@@ -124,6 +125,75 @@ describe('usePackageComparison', () => {
       const metadata = packagesData.value[0]?.metadata
       expect(metadata?.lastUpdated).toBe('2023-03-20T00:00:00.000Z')
       expect(metadata?.lastUpdated).not.toBe('2025-01-01T00:00:00.000Z')
+    })
+  })
+
+  describe('computeHealthScore', () => {
+    function makeData(overrides: Partial<PackageComparisonData> = {}): PackageComparisonData {
+      return {
+        package: { name: 'test', version: '1.0.0' },
+        directDeps: 2,
+        ...overrides,
+      }
+    }
+
+    it('returns score 0 for deprecated packages', () => {
+      const score = computeHealthScore(
+        makeData({ metadata: { deprecated: 'Use something else' } }),
+      )
+      expect(score).toBe(0)
+    })
+
+    it('returns high score for a perfect package', () => {
+      const score = computeHealthScore(
+        makeData({
+          metadata: {
+            lastUpdated: new Date().toISOString(),
+            license: 'MIT',
+          },
+          downloads: 2_000_000,
+          directDeps: 1,
+          analysis: {
+            package: 'test',
+            version: '1.0.0',
+            moduleFormat: 'esm',
+            types: { kind: 'included' },
+            devDependencySuggestion: { recommended: false },
+          } as PackageComparisonData['analysis'],
+          vulnerabilities: {
+            count: 0,
+            severity: { critical: 0, high: 0, moderate: 0, low: 0 },
+          },
+        }),
+      )
+      expect(score).toBeGreaterThanOrEqual(85)
+    })
+
+    it('sets security to 0 for critical vulnerabilities', () => {
+      const safe = computeHealthScore(
+        makeData({
+          vulnerabilities: {
+            count: 0,
+            severity: { critical: 0, high: 0, moderate: 0, low: 0 },
+          },
+        }),
+      )
+      const critical = computeHealthScore(
+        makeData({
+          vulnerabilities: {
+            count: 1,
+            severity: { critical: 1, high: 0, moderate: 0, low: 0 },
+          },
+        }),
+      )
+      expect(safe).toBeGreaterThan(critical)
+    })
+
+    it('handles missing/undefined fields gracefully', () => {
+      const score = computeHealthScore(makeData())
+      expect(typeof score).toBe('number')
+      expect(score).toBeGreaterThanOrEqual(0)
+      expect(score).toBeLessThanOrEqual(100)
     })
   })
 
