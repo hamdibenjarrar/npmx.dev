@@ -162,7 +162,7 @@ export function usePackageComparison(packageNames: MaybeRefOrGetter<string[]>) {
               package: {
                 name: pkgData.name,
                 version: latestVersion,
-                description: undefined,
+                description: pkgData.description,
               },
               downloads: downloads?.downloads,
               packageSize,

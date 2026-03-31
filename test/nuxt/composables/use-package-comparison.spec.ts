@@ -128,15 +128,15 @@ describe('usePackageComparison', () => {
     })
   })
 
-  describe('computeHealthScore', () => {
-    function makeData(overrides: Partial<PackageComparisonData> = {}): PackageComparisonData {
-      return {
-        package: { name: 'test', version: '1.0.0' },
-        directDeps: 2,
-        ...overrides,
-      }
+  function makeData(overrides: Partial<PackageComparisonData> = {}): PackageComparisonData {
+    return {
+      package: { name: 'test', version: '1.0.0' },
+      directDeps: 2,
+      ...overrides,
     }
+  }
 
+  describe('computeHealthScore', () => {
     it('returns score 0 for deprecated packages', () => {
       const score = computeHealthScore(makeData({ metadata: { deprecated: 'Use something else' } }))
       expect(score).toBe(0)
@@ -145,6 +145,7 @@ describe('usePackageComparison', () => {
     it('returns high score for a perfect package', () => {
       const score = computeHealthScore(
         makeData({
+          package: { name: 'test', version: '1.0.0', description: 'A test package' },
           metadata: {
             lastUpdated: new Date().toISOString(),
             license: 'MIT',
