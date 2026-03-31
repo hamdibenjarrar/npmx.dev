@@ -42,6 +42,14 @@ async function usePackageComparisonInComponent(packageNames: string[]) {
   }
 }
 
+function makeData(overrides: Partial<PackageComparisonData> = {}): PackageComparisonData {
+  return {
+    package: { name: 'test', version: '1.0.0' },
+    directDeps: 2,
+    ...overrides,
+  }
+}
+
 describe('usePackageComparison', () => {
   afterEach(() => {
     vi.unstubAllGlobals()
@@ -127,14 +135,6 @@ describe('usePackageComparison', () => {
       expect(metadata?.lastUpdated).not.toBe('2025-01-01T00:00:00.000Z')
     })
   })
-
-  function makeData(overrides: Partial<PackageComparisonData> = {}): PackageComparisonData {
-    return {
-      package: { name: 'test', version: '1.0.0' },
-      directDeps: 2,
-      ...overrides,
-    }
-  }
 
   describe('computeHealthScore', () => {
     it('returns score 0 for deprecated packages', () => {

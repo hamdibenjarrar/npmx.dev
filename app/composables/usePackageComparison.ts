@@ -368,9 +368,9 @@ export function computeHealthScore(data: PackageComparisonData): number {
     if (data.analysis.types?.kind === 'included' || data.analysis.types?.kind === '@types')
       quality += 40
     if (data.analysis.moduleFormat === 'esm' || data.analysis.moduleFormat === 'dual') quality += 30
-    if (data.metadata?.license) quality += 20
-    if (data.package.description) quality += 10
   }
+  if (data.metadata?.license) quality += 20
+  if (data.package.description) quality += 10
 
   // SECURITY (20%) — based on vulnerability severity
   let security = 100
