@@ -138,9 +138,7 @@ describe('usePackageComparison', () => {
     }
 
     it('returns score 0 for deprecated packages', () => {
-      const score = computeHealthScore(
-        makeData({ metadata: { deprecated: 'Use something else' } }),
-      )
+      const score = computeHealthScore(makeData({ metadata: { deprecated: 'Use something else' } }))
       expect(score).toBe(0)
     })
 
