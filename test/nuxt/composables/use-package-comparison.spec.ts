@@ -194,6 +194,34 @@ describe('usePackageComparison', () => {
       expect(score).toBeGreaterThanOrEqual(0)
       expect(score).toBeLessThanOrEqual(100)
     })
+
+    it('applies lower maintenance score for packages older than 1 year', () => {
+      const old = new Date()
+      old.setFullYear(old.getFullYear() - 2)
+      const score = computeHealthScore(makeData({ metadata: { lastUpdated: old.toISOString() } }))
+      expect(score).toBeGreaterThanOrEqual(0)
+      expect(score).toBeLessThanOrEqual(100)
+    })
+
+    it('applies partial security score for high/moderate vulnerabilities', () => {
+      const high = computeHealthScore(
+        makeData({
+          vulnerabilities: { count: 1, severity: { critical: 0, high: 1, moderate: 0, low: 0 } },
+        }),
+      )
+      const moderate = computeHealthScore(
+        makeData({
+          vulnerabilities: { count: 1, severity: { critical: 0, high: 0, moderate: 1, low: 0 } },
+        }),
+      )
+      const low = computeHealthScore(
+        makeData({
+          vulnerabilities: { count: 1, severity: { critical: 0, high: 0, moderate: 0, low: 0 } },
+        }),
+      )
+      expect(high).toBeLessThan(low)
+      expect(moderate).toBeGreaterThan(high)
+    })
   })
 
   describe('staleness detection', () => {
